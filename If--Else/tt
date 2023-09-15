@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo -n "Você está logado como: "
+
+whoami 
+
+echo -n "Joga um numero ai:" 
+
+read var
+
+echo -n "Quer comparar com qual numero: "
+
+read var1
+
+#echo ${var}
+
+if [[ $var -gt $var1 ]]
+then
+	echo 'Primeiro numero é menor'
+else
+	echo 'Segundo numero é maior'
+fi
+
