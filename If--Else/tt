@@ -16,8 +16,11 @@ read var1
 
 if [[ $var -gt $var1 ]]
 then
-	echo 'Primeiro numero é menor'
-else
-	echo 'Segundo numero é maior'
-fi
+	echo 'Primeiro numero é maior'
+elif [[ $var -eq $var1 ]]
+then
+	echo 'Ambos os numeros são iguais'
+else 
+	echo 'Segundo numero é menor'
+fi 
 
