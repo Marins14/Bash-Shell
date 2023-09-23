@@ -2,9 +2,9 @@
 
 #Developed by Marins,Matheus
 
-#Introducing you to the game 
-#echo "Do you want to play a game ? (S/N)"
-
+#Introducing you to the game; Function comes first
+gwent(){
+while true; do
 echo "Welcome to the witcher game!!
 Please select your class: 
 1 - Witcher 
@@ -46,7 +46,7 @@ case $class in
         ;;
 esac 
 
-echo "Perfect! You choose $type, you have attack power $attack, hp = $hp and your skills is '$skills'"
+echo "Perfect! You choose $type, you have attack power = $attack, hp = $hp and your skills is '$skills'"
 
 # Seller has a different options
 if [[ $class -eq 4 ]]; then 
@@ -81,7 +81,7 @@ read player
 
 #Trying to ensure that the number entered is between 0-1
 if [[ $player != 1 && $player != 0 ]]; then 
-    echo "Come on guy! I said 0-1"
+    echo "Come on $USER! I said 0-1"
     exit 1
 fi
 
@@ -92,7 +92,7 @@ else
     echo "You died!"
     exit 1
 fi 
-sleep 2 
+sleep 3
 
 #It's getting hard, let's get this to another level
 echo "Now, it's time to the Boss Battle. It's a Higher Vampire!!! Pick a number between 0-9. (0-9)"
@@ -109,7 +109,24 @@ fi
 # Battle
 if [[ $beast == $player || $player == "hack" ]]; then 
     echo "Congrats my $type, you defeat a Higher Vampire!! Congrats"
+    sleep 3
 else 
     echo "You died!"
     exit 1
 fi 
+done
+}
+
+#Asking if wants to play the game
+echo "Do you want to play a game ? (S/N)"
+read choice
+
+#Ensuring that the uppercase is maintained
+choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+
+if [[ $choice == "S" ]]; then
+    gwent
+elif [[ $choice == "N" ]]; then 
+    echo "Ok, see you soon!"
+    exit 1
+fi
