@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo -n "Você está logado como: "
+user=$(whoami)
 
-whoami 
+echo "Você está logado como: $user " 
 
 echo -n "Joga um numero ai:" 
 
