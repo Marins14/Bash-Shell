@@ -7,9 +7,12 @@ sleep 1
 
 for x in {1..23};
 do
-	if [[ $x == 15  ]]; then 
+	if [[ $x == 13  ]]; then 
 	  continue
 	fi
 	echo "Floor $x"
 	sleep 1
 done
+
+echo "You got it, to the floor $x"
+
