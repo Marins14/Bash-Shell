@@ -47,6 +47,7 @@ case $class in
 esac 
 
 echo "Perfect! You choose $type, you have attack power = $attack, hp = $hp and your skills is '$skills'"
+sleep 2
 
 # Seller has a different options
 if [[ $class -eq 4 ]]; then 
@@ -67,16 +68,18 @@ if [[ $class -eq 4 ]]; then
             ;;
     esac
     exit 1
+# For now Seller just have this options, in a futures we'll include more. 
 fi
 #First Battle 
 
-echo "Now, your first battle approaches! This time it's going to be easy" 
+echo "$type, you are entering in the jungle with many beasts, be careful!" 
+sleep 2
 
 #the  number of beast 
 beast=$(( $RANDOM % 2 ))
 
 #Saving the player number
-echo "Ok, the beast comes, now pick a number between 0-1. (0/1)"
+echo "Ok, the beast comes, now pick a number between 0-1 to defeat this beast!!! (0/1)"
 read player
 
 #Trying to ensure that the number entered is between 0-1
@@ -86,7 +89,7 @@ if [[ $player != 1 && $player != 0 ]]; then
 fi
 
 #Conditional 
-if [[ $beast == $player ]]; then 
+if [[ $beast == $player || $player -gt $beast ]]; then 
     echo "Congrats my $type, beast is VANQUISHED!! Congrats"
 else 
     echo "You died!"
@@ -94,27 +97,66 @@ else
 fi 
 sleep 3
 
+echo "Perfect, now you are free to explore the jungle, feel free! But look ahead, the dark side it's close!"
+sleep 4
+
 #It's getting hard, let's get this to another level
-echo "Now, it's time to the Boss Battle. It's a Higher Vampire!!! Pick a number between 0-9. (0-9)"
-read player
+echo "Vampire: What are you doing here? GET OUT NOW!" 
+sleep 1
 
-#Define the beast again
-beast=$(( $RANDOM % 10 )) # random count start with 0
+# Vampire get close to intimidate
+echo "$type, it's on you, in or out? (I/O)"
+read  choice 
 
-#Trying to ensure that the number entered is between 0-9
-if [[ $player -gt 9 && $player == "hack" ]]; then 
-    echo "Come on guy! I said 0-1"
+choice=$( echo "$choice" | tr a-z A-Z )
+
+# Leaving or not
+if [[ $choice == "I" ]]; then
+    echo "$type chose to face the Vampire" >> log.txt
+else 
+    echo "Vampire: Hahahahah I knew it, you are a loser!"
+    echo "$type chose not to face the Vampire" >> log.txt
     exit 1
 fi
-# Battle
-if [[ $beast == $player || $player == "hack" ]]; then 
-    echo "Congrats my $type, you defeat a Higher Vampire!! Congrats"
-    sleep 3
+
+echo "That's awesome! You choose right the people in the village will appreciate!"
+sleep 2 
+echo "Vampire: Well well if isn't the $type most brave I've ever seen, let's check how powerfull you are"
+sleep 2
+
+# Pick up the vampire attack
+vampire=$(awk -F'=' '/attack/ {print $2}' vampire.txt)
+
+#Compairs the both attack if diferents ( for now will be always )
+if [[ "$vampire" != "$attack" ]]; then
+    echo "Vampire: NOOOOOO, you should be dead now!! I'll return"
+    sleep 2 
+    echo "Congrats $type, it was a hard battle but this vampire will let our kids in peace for now!\n"
+    sleep 2
+    echo " " # Solution for windows that pick up the \n
+    echo "$type used $attack" >> logattack.txt 
+    sleep 2
 else 
     echo "You died!"
-    exit 1
 fi 
-done
+
+# #Define the beast again
+# beast=$(( $RANDOM % 10 )) # random count start with 0
+
+# #Trying to ensure that the number entered is between 0-9
+# if [[ $player -gt 9 && $player == "hack" ]]; then 
+#     echo "Come on guy! I said 0-1"
+#     exit 1
+# fi
+# # Battle
+# if [[ $beast == $player || $player == "hack" ]]; then 
+#     echo "Congrats my $type, you defeat a Higher Vampire!! Congrats"
+#     sleep 3
+# else 
+#     echo "You died!"
+#     exit 1
+# fi 
+ done
 }
 
 #Asking if wants to play the game
@@ -122,7 +164,7 @@ echo "Do you want to play a game ? (S/N)"
 read choice
 
 #Ensuring that the uppercase is maintained
-choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]')
+choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]') #Also we can do | tr a-z A-Z 
 
 if [[ $choice == "S" ]]; then
     gwent

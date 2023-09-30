@@ -1,0 +1,3 @@
+Witcher used 80
+Sorceress used 60
+Wizard used 50
