@@ -5,6 +5,12 @@
 #Introducing you to the game; Function comes first
 gwent(){
 while true; do
+
+#First of everything, let's garanty the paste Logs exists
+if [ ! -d "./Logs" ]; then 
+    mkdir ./Logs
+fi
+
 echo "Welcome to the witcher game!!
 Please select your class: 
 1 - Witcher 
@@ -14,6 +20,7 @@ Please select your class:
 5 - I give up, I want to go to sleep" 
 
 read class 
+echo "$class --> being saved" >> ./Logs/logclass.txt
 #Let's save the player choose
 case $class in 
     1) 
@@ -112,10 +119,10 @@ choice=$( echo "$choice" | tr a-z A-Z )
 
 # Leaving or not
 if [[ $choice == "I" ]]; then
-    echo "$type chose to face the Vampire" >> log.txt
+    echo "$type chose to face the Vampire" >> ./Logs/logbrave.txt
 else 
     echo "Vampire: Hahahahah I knew it, you are a loser!"
-    echo "$type chose not to face the Vampire" >> log.txt
+    echo "$type chose not to face the Vampire" >> ./Logs/logbrave.txt
     exit 1
 fi
 
@@ -134,7 +141,7 @@ if [[ "$vampire" != "$attack" ]]; then
     echo "Congrats $type, it was a hard battle but this vampire will let our kids in peace for now!\n"
     sleep 2
     echo " " # Solution for windows that pick up the \n
-    echo "$type used $attack" >> logattack.txt 
+    echo "$type used $attack" >> ./Logs/logattack.txt 
     sleep 2
 else 
     echo "You died!"
