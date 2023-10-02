@@ -97,9 +97,9 @@ fi
 
 #Conditional 
 if [[ $beast == $player || $player -gt $beast ]]; then 
-    echo "Congrats my $type, beast is VANQUISHED!! Congrats"
+    echo "Congrats my $type, beast is VANQUISHED!!"
 else 
-    echo "You died!"
+    echo "The beast was  stronger  than you!"
     exit 1
 fi 
 sleep 3
@@ -135,16 +135,16 @@ sleep 2
 vampire=$(awk -F'=' '/attack/ {print $2}' vampire.txt)
 
 #Compairs the both attack if diferents ( for now will be always )
-if [[ "$vampire" != "$attack" ]]; then
+if [[ $vampire -lt $attack ]]; then
     echo "Vampire: NOOOOOO, you should be dead now!! I'll return"
     sleep 2 
-    echo "Congrats $type, it was a hard battle but this vampire will let our kids in peace for now!\n"
+    echo "Congrats $type, it was a hard battle but this vampire will let our kids in peace for now!"
     sleep 2
-    echo " " # Solution for windows that pick up the \n
+    echo " " 
     echo "$type used $attack" >> ./Logs/logattack.txt 
     sleep 2
 else 
-    echo "You died!"
+    echo "Vampire: Hahahahah I knew it, you couldn't do it"
 fi 
 
 # #Define the beast again
