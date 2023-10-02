@@ -1,16 +1,118 @@
 #!/bin/bash 
-
 #Developed by Marins,Matheus
+
+#V0.1.1
+#The combat against Vampire
+combatAgainstVampire() {
+    playerHp=$hp
+    vampireHp=$(awk -F'=' '/attack/ {print $2}' vampire.txt)
+
+    # Vampire get close to intimidate
+    for (( round=1; round <= 3; round++ )); do
+        echo "Roud: $round"
+        performPlayerAttack
+        performVampireAttack
+    done
+}
+
+#The Player Attack
+performPlayerAttack(){
+    echo "It's your turn, $type! Choose your action:"
+    echo "
+        1 - Normal Attack 
+        2 - Special Attack"
+    read playerAction
+
+    case $playerAction in
+        1)
+            playerDamage=$(( RANDOM % 30 + 20 )) # Normal Attack
+            ;;
+        2)
+            playerDamage=$(( RANDOM % 50 + 30 )) # Special Attack
+            ;;
+        *)
+            echo "Invalid choice. Assuming normal attack"
+            playerDamage=$(( RANDOM % 30 + 20 ))
+            ;;
+        esac
+
+        echo "You dealt $playerDamage damage to the Vampire!"
+        vampireHp=$(( $vampireHp - $playerDamage ))
+}
+
+#The vampire attack 
+performVampireAttack(){
+    vampireDamage=$(( RAANDOM % 20 + 10 ))
+    echo "The Vampire dealt $vampireDamage damage to you!"
+    playerHp=$(( $playerHp - $vampireDamage ))
+
+    if [[ $playerHp -le 0  ]]; then
+        echo "You have been defeated by Vampire. Game over!"
+        exit 1
+    else
+        echo "You have $playerHp HP remaining."
+    fi 
+
+}
+
+#The First Battle
+echo "$type, you are entering the jungle with many beasts. Be careful!"
+sleep 2
+
+# Beast Description
+beast_description="a fearsome black wolf with glowing eyes"
+echo "A $beast_description approaching you!"
+
+# Take a Decision
+echo "What will you do?"
+echo "1 - Attack"
+echo "2 - Get Out Now!"
+read player_decision
+
+# Case of your decision
+case $player_decision in
+    1)
+        echo "You attack the $beast_description with your sword."
+        # Logic of combat missing
+        ;;
+    2)
+        echo "You are weak! The beast will attack the village!"
+        exit 1
+        ;;
+    *)
+        echo "Invalid choice. The $beast_description attacks you!"
+        ;;
+esac
+
+#Combat Result
+if [[ $player_victory_condition ]]; then
+    echo "Congratulations, you defeated $beast_description!"
+else
+    echo "The $beast_description was too strong. You are defeated."
+fi
+
+
+#The evoluate Performance
+evaluatePerformance(){
+    echo "Let's see your performance...."
+
+    if [[ $playerHp > 70 ]]; then 
+        echo "Congratulations! You emerged victorious with great strength!"
+        echo "You have achieved the Best Ending."
+    elif [[ $playerHp > 30 ]]; then
+        echo "You survived, but it was a tough battle."
+        echo "You have achieved a Good Ending."
+    else
+        echo "Unfortunately, you were defeated. Better luck next time!"
+        echo "You have achieved a Bad Ending." 
+    fi
+}
 
 #Introducing you to the game; Function comes first
 gwent(){
 while true; do
 
-#First of everything, let's garanty the paste Logs exists
-if [ ! -d "./Logs" ]; then 
-    mkdir ./Logs
-fi
-
+# Providing player options
 echo "Welcome to the witcher game!!
 Please select your class: 
 1 - Witcher 
@@ -20,8 +122,11 @@ Please select your class:
 5 - I give up, I want to go to sleep" 
 
 read class 
+
 echo "$class --> being saved" >> ./Logs/logclass.txt
 #Let's save the player choose
+
+#The types has a differents attributes
 case $class in 
     1) 
         type="Witcher" 
@@ -51,59 +156,53 @@ case $class in
         echo "Ok, deal with it"
         exit 1
         ;;
+    *)
+        echo "Invalid choid. Assuming Witcher"
+        type="Witcher" 
+        hp=250
+        attack=80
+        skills="Kill monsters" 
+        ;;
 esac 
 
+#That's it, let's play
 echo "Perfect! You choose $type, you have attack power = $attack, hp = $hp and your skills is '$skills'"
 sleep 2
 
+#In case the seller has been choosen
+coin=200
 # Seller has a different options
 if [[ $class -eq 4 ]]; then 
     echo "
-    1 - Potion 
-    2-  Sword
-    3 - Armor"
+    1 - Potion (50 coins)
+    2-  Sword (100 coins)
+    3 - Armor (150 coins)
+    PS: You have $coin coins"
     read option
     case $option in
         1)
-            echo "Potion has been add in your backpack"
+            echo "Perfect! You purchased a healing potion"
+            echo "Your wallet now has: $(( $coin - 50 )) coins"
+            playerHp=$(( $playerHp + 30 ))
             ;;
         2)
-            echo "Perfect! Now you are ready to the battle! Good Luck" 
+            echo "You purchased a powerful sword for 100 coins."
+            echo "Your wallet now has: $(( $coin - 150 )) coins"
+            attack=$(( $attack + 20 ))
             ;;
         3) 
             echo "I'm sure now you'll be protected now! Good Luck in your trip" 
+            echo "Your wallet now has: $(( $coin - 200 )) coins"
+            hp=$(( $hp + 40 ))
             ;;
     esac
     exit 1
 # For now Seller just have this options, in a futures we'll include more. 
 fi
-#First Battle 
+#First Battle
+firstBattle
 
-echo "$type, you are entering in the jungle with many beasts, be careful!" 
-sleep 2
-
-#the  number of beast 
-beast=$(( $RANDOM % 2 ))
-
-#Saving the player number
-echo "Ok, the beast comes, now pick a number between 0-1 to defeat this beast!!! (0/1)"
-read player
-
-#Trying to ensure that the number entered is between 0-1
-if [[ $player != 1 && $player != 0 ]]; then 
-    echo "Come on $USER! I said 0-1"
-    exit 1
-fi
-
-#Conditional 
-if [[ $beast == $player || $player -gt $beast ]]; then 
-    echo "Congrats my $type, beast is VANQUISHED!!"
-else 
-    echo "The beast was  stronger  than you!"
-    exit 1
-fi 
-sleep 3
-
+#Travelling to another map
 echo "Perfect, now you are free to explore the jungle, feel free! But look ahead, the dark side it's close!"
 sleep 4
 
@@ -112,63 +211,22 @@ echo "Vampire: What are you doing here? GET OUT NOW!"
 sleep 1
 
 # Vampire get close to intimidate
-echo "$type, it's on you, in or out? (I/O)"
-read  choice 
+combatAgainstVampire
 
-choice=$( echo "$choice" | tr a-z A-Z )
+#Showing the performance  
+evaluatePerformance
 
-# Leaving or not
-if [[ $choice == "I" ]]; then
-    echo "$type chose to face the Vampire" >> ./Logs/logbrave.txt
-else 
-    echo "Vampire: Hahahahah I knew it, you are a loser!"
-    echo "$type chose not to face the Vampire" >> ./Logs/logbrave.txt
-    exit 1
-fi
-
-echo "That's awesome! You choose right the people in the village will appreciate!"
-sleep 2 
-echo "Vampire: Well well if isn't the $type most brave I've ever seen, let's check how powerfull you are"
-sleep 2
-
-# Pick up the vampire attack
-vampire=$(awk -F'=' '/attack/ {print $2}' vampire.txt)
-
-#Compairs the both attack if diferents ( for now will be always )
-if [[ $vampire -lt $attack ]]; then
-    echo "Vampire: NOOOOOO, you should be dead now!! I'll return"
-    sleep 2 
-    echo "Congrats $type, it was a hard battle but this vampire will let our kids in peace for now!"
-    sleep 2
-    echo " " 
-    echo "$type used $attack" >> ./Logs/logattack.txt 
-    sleep 2
-else 
-    echo "Vampire: Hahahahah I knew it, you couldn't do it"
-fi 
-
-# #Define the beast again
-# beast=$(( $RANDOM % 10 )) # random count start with 0
-
-# #Trying to ensure that the number entered is between 0-9
-# if [[ $player -gt 9 && $player == "hack" ]]; then 
-#     echo "Come on guy! I said 0-1"
-#     exit 1
-# fi
-# # Battle
-# if [[ $beast == $player || $player == "hack" ]]; then 
-#     echo "Congrats my $type, you defeat a Higher Vampire!! Congrats"
-#     sleep 3
-# else 
-#     echo "You died!"
-#     exit 1
-# fi 
- done
+done
 }
 
 #Asking if wants to play the game
 echo "Do you want to play a game ? (S/N)"
 read choice
+
+#First of everything, let's garanty the paste Logs exists
+if [ ! -d "./Logs" ]; then 
+    mkdir ./Logs
+fi
 
 #Ensuring that the uppercase is maintained
 choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]') #Also we can do | tr a-z A-Z 
@@ -179,3 +237,5 @@ elif [[ $choice == "N" ]]; then
     echo "Ok, see you soon!"
     exit 1
 fi
+
+
