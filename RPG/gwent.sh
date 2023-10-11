@@ -1,7 +1,14 @@
 #!/bin/bash 
-#Developed by Marins,Matheus
 
-#V0.1.1
+#################################################
+#               The Witcher Game!               #
+#################################################
+# Developed by: Matheus Marins                  #
+# V1.0                                          #
+# Date: 2023/10/10                              #
+# Att: --/--/--                                 #
+#################################################
+
 #The combat against Vampire
 combatAgainstVampire() {
     playerHp=$hp
@@ -42,7 +49,7 @@ performPlayerAttack(){
 
 #The vampire attack 
 performVampireAttack(){
-    vampireDamage=$(( RAANDOM % 20 + 10 ))
+    vampireDamage=$(( RANDOM % 20 + 10 ))
     echo "The Vampire dealt $vampireDamage damage to you!"
     playerHp=$(( $playerHp - $vampireDamage ))
 
@@ -53,6 +60,25 @@ performVampireAttack(){
         echo "You have $playerHp HP remaining."
     fi 
 
+}
+
+firstBattle(){
+#Combat
+player_victory_condition(){
+    beastHp=$(( RANDOM % 50 ))
+
+    # Player attacks the beast
+    playerDamage=$attack
+
+    echo "You attack the $beast_description with your sword and deal $playerDamage damage."
+
+    beastHp=$(( $beastHp - $playerDamage ))
+
+    if [[ $beastHp -le 0 ]]; then
+        return 0  # Player wins
+    else
+        return 1  # Player doesn't win yet
+    fi
 }
 
 #The First Battle
@@ -68,12 +94,13 @@ echo "What will you do?"
 echo "1 - Attack"
 echo "2 - Get Out Now!"
 read player_decision
+echo "$player_decision --> being saved" >> ./Logs/logdecision.txt
 
 # Case of your decision
 case $player_decision in
     1)
-        echo "You attack the $beast_description with your sword."
-        # Logic of combat missing
+        echo "You attack the beast"
+        player_victory_condition
         ;;
     2)
         echo "You are weak! The beast will attack the village!"
@@ -84,13 +111,16 @@ case $player_decision in
         ;;
 esac
 
+
 #Combat Result
-if [[ $player_victory_condition ]]; then
+if [[ $? -eq 0 ]]; then
     echo "Congratulations, you defeated $beast_description!"
 else
     echo "The $beast_description was too strong. You are defeated."
+    echo "Sorry, you are dead. Game over!"
+    exit 1
 fi
-
+}
 
 #The evoluate Performance
 evaluatePerformance(){
@@ -108,6 +138,7 @@ evaluatePerformance(){
     fi
 }
 
+# The game starts here!
 #Introducing you to the game; Function comes first
 gwent(){
 while true; do
@@ -223,16 +254,26 @@ done
 echo "Do you want to play a game ? (S/N)"
 read choice
 
-#First of everything, let's garanty the paste Logs exists
-if [ ! -d "./Logs" ]; then 
-    mkdir ./Logs
-fi
 
 #Ensuring that the uppercase is maintained
 choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]') #Also we can do | tr a-z A-Z 
 
 if [[ $choice == "S" ]]; then
+    #First of everything, let's garanty the paste Logs exists
+    if [ ! -d "./Logs" ]; then 
+        mkdir ./Logs
+    fi
+
+    #Let's create the vampire file
+    if [ ! -f "./vampire.txt" ]; then 
+        echo "type="Vampire" 
+        hp=125
+        attack=70
+        skills="Sucking the blood"" > vampire.txt
+    fi
+    #Calling the function of game
     gwent
+
 elif [[ $choice == "N" ]]; then 
     echo "Ok, see you soon!"
     exit 1

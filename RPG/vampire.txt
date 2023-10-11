@@ -1,4 +1,0 @@
-type="Vampire" 
-hp=125
-attack=70
-skills="Sucking the blood"
