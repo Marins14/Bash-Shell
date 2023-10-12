@@ -251,14 +251,14 @@ done
 }
 
 #Asking if wants to play the game
-echo "Do you want to play a game ? (S/N)"
+echo "Do you want to play a game ? (Y/N)"
 read choice
 
 
 #Ensuring that the uppercase is maintained
 choice=$(echo "$choice" | tr '[:lower:]' '[:upper:]') #Also we can do | tr a-z A-Z 
 
-if [[ $choice == "S" ]]; then
+if [[ $choice == "Y" ]]; then
     #First of everything, let's garanty the paste Logs exists
     if [ ! -d "./Logs" ]; then 
         mkdir ./Logs
