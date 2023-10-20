@@ -182,7 +182,7 @@ if [[ $escolha == "S" ]]; then
 	3 - Sair"
 	read organiza
 	#Validando se a escolha é realmente um numero válido
-	if ! [[ $organiza =~ ^[0-9]+$ ]]; then
+	if ! [[ $organiza =~ ^[1-3]+$ ]]; then
 		echo "ERRO: Por favor, digite um numero válido!"
 		exit 1
 	fi
