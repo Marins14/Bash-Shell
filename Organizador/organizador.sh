@@ -7,7 +7,7 @@
 # Função: Organizar Imagens PNG,JPEG,JPG e Documentos 	#
 # Autor: Matheus Marins Bernardello 				  	# 
 # Criado em: 2023/10/19                               	#
-# Att: --/--/--                                       	#
+# Att: 2023/10/22                                       #
 #=======================================================#
 
 #Definição dos caminhos a serem utilizados ao longo do programa
@@ -28,16 +28,7 @@ dir_dest_doc="/home/$(whoami)/Documentos/Organizado" # Caso linux
 
 dir_log="/home/$(whoami)/Documentos/log" # Caso Linux
 #dir_log='/c/Users/%USERNAME%/Documentos/log' # Caso windows
-
-#Se não existir o diretório de log, ele irá criar
-if [[ ! -d $dir_log ]]; then
-		#Cria o diretório de log, em caso de erro ele irá informar
-	if mkdir -p "$dir_log";then
-			echo "Diretório log criado em $dir_log"
-	else
-			echo "Erro ao criar o diretório de log, favor verificar!"
-	fi
-fi	
+	
 #Função para organizar as Imagens
 func_organiza_img() {
     echo "$USER escolheu organizar"
@@ -47,9 +38,8 @@ func_organiza_img() {
             echo "Diretório de destino criado em $dir_destino"
         fi
     else
-        echo "Erro ao criar o diretório de destino, favor verificar!"
+        echo "Destino já existente!"
     fi
-
     echo "Iniciando a organização!"
 
     # Faz a troca para a pasta de origem para iniciar
@@ -82,19 +72,19 @@ func_organiza_img() {
     echo "$valida"
     echo "OBS: Lembrando que você encontrar tudo que foi movido para: $dir_destino"
 
-} >> "${dir_log}/func_organiza_img_${DATA}.log" 2>&1 # Aloca todas as info do programa neste diretório 
+} >> "${dir_log}/func_organiza_img_${DATA}.log" 2>&1 #Aloca todas as info do programa neste diretório 
 
 # Função para organizar os Documentos
 func_organiza_doc() {
     echo "$USER escolheu organizar"
-    
+
     # Caso a pasta destino não exista, ele cria
     if [[ ! -d $dir_dest_doc ]]; then
         if mkdir -p "$dir_dest_doc"; then
             echo "Diretório de destino criado em $dir_dest_doc"
         fi
     else
-        echo "Erro ao criar o diretório de destino, favor verificar!"
+        echo "Destino já existente!"
     fi
 
     echo "Iniciando a organização!" 
@@ -102,10 +92,9 @@ func_organiza_doc() {
     cd "$dir_org_doc" || exit
 
     # Faz a varredura dos arquivos na pasta de origem
-    for arquivo in *; do 
+    for arquivo in *.doc; do 
         if [[ -f $arquivo ]]; then
-            DOC="*.doc"
-            mv "$DOC" "$dir_dest_doc"
+            mv "$arquivo" "$dir_dest_doc"
         fi
     done
 
@@ -128,63 +117,36 @@ func_organiza_doc() {
         fi
     done
 
+    for arquivo in *.xlsx; do 
+        if [[ -f $arquivo ]]; then
+            mv "$arquivo" "$dir_dest_doc"
+        fi
+    done
+
     echo "Finalizando..." 
     echo "Seus arquivos foram movidos com sucesso!"
     valida=$(ls "$dir_dest_doc")
     echo "$valida"
     echo "OBS: Lembrando que você encontrar tudo que foi movido para: $dir_dest_doc"
-    
-    # Adicionando mais extensões caso necessário
-    # echo "Sentiu falta de alguma extensão? (S/N)" 
-    # read falta
-    # falta=$( echo "$falta" | tr a-z A-Z)
-    
-    # # Se sim, ele irá perguntar quantas mais e quais são fazendo o devido tratamento
-    # if [[ $falta == "S" ]]; then
-    #     echo "Ok, quantas mais você quer adicionar ? Lembrando só podem ser mais 2 (1-2)"
-    #     read qtde
-    #     # Verificando se a qtde é um numero válido
-    #     if ! [[ "$qtde" =~ ^[1-2]$ ]]; then
-    #         echo "Erro: Por favor, insira 1 ou 2."
-    #         exit 1
-    #     fi
 
-    #     if [[ $qtde -eq 1 ]]; then
-    #         echo "Por favor nos diga qual a extensão do arquivo!"
-    #         read extensao
-    #         # Validando se a extensão é alfanumerica (por exemplo, sem espaços)
-    #         if ! [[ "$extensao" =~ ^[a-zA-Z0-9]+$ ]]; then
-    #             echo "Erro: Por favor, insira uma extensão válida."
-    #             exit 1
-    #         fi
-
-    #         EXT="*.$extensao"
-    #         mv "$EXT" "$dir_dest_doc" 
-    #         echo "Feito!" 
-
-    #     elif [[ $qtde -eq 2 ]]; then 
-    #         echo "Por favor nos diga quais as extensões dos arquivos!"
-    #         read extensao1
-    #         read extensao2
-    #         # Validando se a extensão é alfanumerica (por exemplo, sem espaços)
-    #         if [[ ! "$extensao1" =~ ^[a-zA-Z0-9]+$ || ! "$extensao2 " =~ ^[[:alnum:]]+$ ]]; then
-    #             echo "Erro: Por favor, insira uma extensão válida."
-    #             exit 1
-    #         fi
-
-    #         EXT="*.$extensao1"
-    #         mv "$EXT" "$dir_dest_doc" 
-    #         EXT1="*.$extensao2"
-    #         mv "$EXT1" "$dir_dest_doc"
-
-    #         echo "Feito!"
-    #     fi
-    #     valida=$(ls "$dir_dest_doc")
-    #     echo "$valida"
-    # else 
-    #     echo "Ótimo!" 
-    # fi
 } >> "${dir_log}/func_organiza_doc_${DATA}.log" 2>&1 #Aloca todas as info do programa neste diretório 
+
+func_add_ext(){
+        
+    read extensao
+    for arquivo in *.$extensao; do 
+        if [[ -f $arquivo ]]; then
+            mv "$arquivo" "$dir_dest_doc"
+        fi
+    done
+
+    echo "Finalizando..." 
+    echo "Seus arquivos foram movidos com sucesso!"
+    valida=$(ls "$dir_dest_doc")
+    echo "$valida"
+    echo "OBS: Lembrando que você encontrar tudo que foi movido para: $dir_dest_doc"
+
+} >> "${dir_log}/func_add_ext_${DATA}.log" 2>&1 #Aloca todas as info do programa neste diretório, inclusive o erro
 
 #Inicio do programa, perguntando se executa ou não
 echo "Olá! Bem vindo ao Organizador de arquivos, vamos lá ? (S/N)" 
@@ -193,6 +155,13 @@ escolha=$( echo $escolha | tr a-z A-Z ) #Garanto que o digitado pelo usuario sej
 
 #Se escolher Imagens, chama a função da mesma, o mesmo para Documentos ou simplesmente sair
 if [[ $escolha == "S" ]]; then
+    #Se não existir o diretório de log, ele irá criar
+    if [[ ! -d $dir_log ]]; then
+		#Cria o diretório de log, em caso de erro ele irá informar
+	    if mkdir -p "$dir_log";then
+			echo "Diretório log criado em $dir_log"
+	    fi
+    fi
 	echo "Perfeito $USER, vamos lá, o que deseja organizar ? 
 	1 - Imagens 
 	2 - Documentos 
@@ -206,19 +175,30 @@ if [[ $escolha == "S" ]]; then
 	case $organiza in 
 		1) 
 			func_organiza_img
-			echo "Obrigado por utilizar nosso code!" 
-			exit 1
+			echo "Obrigado por utilizar nosso programa!" 
+            exit 1
 		;; 
 		2) 
 			func_organiza_doc
-			echo "Obrigado por utilizar nosso code!" 
-			exit 1
+			echo "Obrigado por utilizar nosso programa!" 
+
 		;;
 		3)
 			echo "Saindo..." 
 			exit 1
 		;; 
 	esac
+    echo "Deseja adicionar mais extensões ? (S/N)" 
+    read add_ext
+    add_ext=$( echo "$add_ext" | tr a-z A-Z)
+    if [[ $add_ext == "S" ]]; then
+        echo "Por favor nos diga qual a extensão do arquivo!"
+        func_add_ext
+        echo "Feito!" 
+    else 
+        echo "Ok, saindo..."
+        exit 1
+    fi
 else 
 	echo "Ok...saindo"
 	exit 1
