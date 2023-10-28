@@ -8,14 +8,17 @@
 - [Notas](#notas)
 
 ## Descrição 
-Código criado em shell (Bash) para organizar imagens PNG,JPEG e JPG e documentos em pastas específicas. Ele foi criado com o intuito de ajudar a organização diária. 
+Código criado em shell (Bash) para organizar imagens PNG,JPEG e JPG e documentos em pastas específicas. Ele foi criado com o intuito de ajudar a organização diária.
+Colocado a parte de limpeza dos logs do sistema, para que o usuário possa escolher se quer ou não limpar os logs. Critério de Limpeza: Compactar em um zip para backup e apagar os logs antigos. 
 
 ## Autor 
 - Matheus Marins Bernardello 
 
 ## Requisitos 
 - Ter um sitema operacional Linux OU WSL (Windows Subsystem for Linux) instalado 
-- Caso esteja em um windows, usar o GIT Bash para executar o código e descomentar as linhas "# Caso Windows" 
+- Caso esteja em um windows, usar o GIT Bash para executar o código e descomentar as linhas "# Caso Windows"
+- Caso windows ainda com problemas, ajustar os path
+- Ter o pacote zip instalado 
 
 ## Como usar
 1. Clone o repositório
@@ -28,7 +31,8 @@ Código criado em shell (Bash) para organizar imagens PNG,JPEG e JPG e documento
  ```
 3. Execute o arquivo
  ```bash
- bash organizador.sh
+ bash organizador.sh #Para organizar 
+ bash organiza_logs.sh #Para organizar os logs
  ```
 
 ## Notas 
