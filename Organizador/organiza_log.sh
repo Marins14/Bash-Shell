@@ -5,7 +5,7 @@
 #		Organizador dos Logs Imagens/Docs	      	    #
 #=======================================================#
 # Função: Organizar os logs gerados pelo organizador.sh	#
-# Autor: Matheus Marins Bernardello 				  	# 
+# Autor: Matheus Marins Bernardello 				    # 
 # Criado em: 2023/10/28                               	#
 # Att: --/--/--                                         #
 #=======================================================#
