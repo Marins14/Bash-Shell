@@ -1,0 +1,21 @@
+#This is an example, how to configure your sendemail command
+#!/bin/bash
+source ~/.mailrc # This is the file that contains the variables for the sendemail command
+# If you don't have this file, descomment the line below and set the variables
+# if[[ ! -e ~/.mailrc ]]; then 
+#    touch ~/.mailrc
+#    echo "servidor=smtp.gmail.com:587" >> ~/.mailrc
+#    echo "senha=yourpassword" >> ~/.mailrc
+# fi
+# Remember, you need to set the variables, according to your email provider, this is just an example
+
+server=$servidor
+password=$senha
+from='example@example.com'
+to='Kali7'
+copia='Kalil'
+subject='Warning - Disk usage is above 80%'
+message='The disk usage is above 80% on server - Recommendation is to clean up the disk 
+or increase the disk size.
+Tks, 
+Your name'
