@@ -11,9 +11,9 @@ source ~/.mailrc # This is the file that contains the variables for the sendemai
 
 server=$servidor
 password=$senha
-from='example@example.com'
-to='Kali7'
-copia='Kalil'
+from='from@from.com'
+to='to@to.com'
+#copia='Kalil'
 subject='Warning - Disk usage is above 80%'
 message='The disk usage is above 80% on server - Recommendation is to clean up the disk 
 or increase the disk size.

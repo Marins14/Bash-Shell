@@ -17,7 +17,7 @@ limit_disk=80 # 80% of usage is the limit
 current_usage=$(df -h | grep /dev/sda4 | awk '{print $5}' | sed 's/%//g') # 5th column of the df -h command, remove the % sign, btw will show just the /dev/sda4 partition 
 
 # Let's check if the current usage is greater than the limit
-if [ $current_usage -gt $limit_disk ]; then
+if [[ $current_usage -gt $limit_disk ]] ; then
     echo "The disk is above '$limit_disk'% usage"
     sendemail -f "$from" -t "$to" -u "$subject" -m "$message" -s "$server" -xu "$from" -xp "$password"
 else
