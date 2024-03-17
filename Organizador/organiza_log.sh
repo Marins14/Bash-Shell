@@ -13,7 +13,7 @@
 #Definição dos caminhos a serem utilizados ao longo do programa
 # exemplo de saida: 20/10/2023 - 13:43
 DATA=$(date +"%d-%m-%y-%H:%M")
-dir_log="/home/$(whoami)/Documentos/log"
+dir_log="/var/log/organizador"
 
 # Função que verifica a "idade" do log e exclui se for maior que 90 dias
 func_verifica_idade_log(){

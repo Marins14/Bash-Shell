@@ -15,19 +15,15 @@
 DATA=$(date +"%d-%m-%y-%H:%M")
 
 dir_origem="/home/$(whoami)/Imagens" # Caso Linux 
-#dir_origem='/c/Users/%USERNAME%/Imagens' # Caso windows
 
 dir_destino="/home/$(whoami)/Imagens/Organizadas" # Caso linux
-#dir_destino='/c/Users/%USERNAME%/Imagens/Organizadas' # Caso windows
 
 dir_org_doc="/home/$(whoami)/Documentos" # Caso linux
-#dir_org_doc='/c/Users/%USERNAME%/Documentos' # Caso windows
 
 dir_dest_doc="/home/$(whoami)/Documentos/Organizado" # Caso linux
-#dir_dest_doc='/c/Users/%USERNAME%/Documentos/Organizado' # Caso windows
 
-dir_log="/home/$(whoami)/Documentos/log" # Caso Linux
-#dir_log='/c/Users/%USERNAME%/Documentos/log' # Caso windows
+dir_log="/var/log/organizador" # Caso Linux
+
 	
 #Função para organizar as Imagens
 func_organiza_img() {
