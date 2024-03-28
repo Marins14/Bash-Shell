@@ -36,4 +36,14 @@ for i in $(cat $arquivo | cut -d';' -f3 | sed 's/"//g' | tail -n +2); do
 		#faz a verificação solicitada
 		echo "Usuário, possui os seguinte grupos associados:  $grupos" >> $arquivo_validação
 	done
+	#Possivel solução
+	# Verifica se o arquivo possui as strings "OCS_CLOUD" e "revenue"
+	if grep -q "OCS_CLOUD" "$arquivo_validação" && grep -q "revenue" "$arquivo_validação"; then
+    	echo "O arquivo possui a string 'OCS_CLOUD' e 'revenue'."
+    	sed -i 's/^\(.*\)$/\1, ok/' "$arquivo_validação"
+	else
+    	echo "O arquivo não possui uma ou ambas as strings."
+    	sed -i 's/^\(.*\)$/\1, registrar1/' "$arquivo_validação"
+	fi
+
 done
