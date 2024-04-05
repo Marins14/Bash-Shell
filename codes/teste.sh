@@ -19,6 +19,6 @@ if [[ $(git status --porcelain) ]]; then
     if [[ $choice == "s" ]]; then
         git push
     else
-        echo "Operação cancelada"
+        echo "Operação cancelada, realizar novo commit"
     fi
 fi
