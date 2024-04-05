@@ -19,7 +19,6 @@ if [[ $(git status --porcelain) ]]; then
     if [[ $choice == "s" ]]; then
         git push
     else
-        exit 1
         echo "Operação cancelada"
     fi
 fi
