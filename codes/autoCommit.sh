@@ -14,6 +14,7 @@ if [[ $(git status --porcelain) ]]; then
     git commit -m "Mensagem Automática de Commit"
 
     git push
+    
     #echo "Posso subir? (s/n)"
     #read choice
 
