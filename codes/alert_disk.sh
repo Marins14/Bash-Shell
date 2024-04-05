@@ -8,7 +8,7 @@
 ################################################
 
 # Email configuration
-. src/email_config.sh
+. src/email_config.sh 
 # Remember to put your email and password in the email_config.sh file and take off the .example extension
 
 # Let's set the limit of we want to alert on
