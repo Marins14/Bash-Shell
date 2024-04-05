@@ -4,7 +4,7 @@
 # Date: 05/04/2024                             #
 ################################################
 
-if [[ $(git status --porcelain) ]]; then
+if [[ $(git status --porcelain) ]]; then 
     
     git add .
 
