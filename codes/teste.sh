@@ -1,4 +1,8 @@
 #!/bin/bash 
+################################################
+# Author: Matheus Bernardello                  #
+# Date: 05/04/2024                             #
+################################################
 
 if [[ $(git status --porcelain) ]]; then
     
@@ -15,6 +19,7 @@ if [[ $(git status --porcelain) ]]; then
     if [[ $choice == "s" ]]; then
         git push
     else
+        exit 1
         echo "Operação cancelada"
     fi
 fi
