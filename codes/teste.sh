@@ -8,7 +8,8 @@ read mensagem
 
 git commit -m "$mensagem"
 
-echo -p "Posso subir? (s/n)" choice
+echo "Posso subir? (s/n)"
+read choice
 
 if [[ $choice == "s" ]]; then
     git push
