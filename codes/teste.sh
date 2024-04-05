@@ -10,7 +10,7 @@ git commit -m "$mensagem"
 
 echo -p "Posso subir? (s/n)" choice
 
-if [ $choice == "s" ]; then
+if [[ $choice == "s" ]]; then
     git push
 else
     echo "Operação cancelada"
