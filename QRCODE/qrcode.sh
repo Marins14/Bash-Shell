@@ -23,4 +23,3 @@ fi
 qrcode=$(curl -s qrenco.de/$site)
 echo "Here is your qrcode! 
 Generated in `date` $qrcode" 
-
