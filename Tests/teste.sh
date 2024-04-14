@@ -14,5 +14,5 @@ else
 
 fi
 
-echo "finalizado com sucesso"
+echo "finalizado com sucesso!"
 
