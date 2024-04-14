@@ -17,5 +17,3 @@ sleep 1
 read name
 
 echo "Hi $name, was a pleasure! Tks " 
- 
-
