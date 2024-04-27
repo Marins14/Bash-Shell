@@ -1,0 +1,35 @@
+Adicionar os usuarios mapeados anteriormente 
+ - sudo add user 'nome'
+
+Criar as pastas correspondentes ao servidor 
+sudo mkdir /arquivos/...
+
+sudo chmod 777 -R /arquivos/.. -> repetir para cada pasta
+
+sudo apt update
+
+sudo apt install samba -y #Caso não tenha a instalado o samba anteriormente
+
+sudo smbpasswd -a username 
+coloca a senha -> repetir para todos os usuários criados
+
+Entrar na pasta /etc/samba/
+
+sudo cp smb.conf smb.conf.bkp 
+ 
+sudo vi smp.conf
+
+Dentro do smp.conf
+
+workgroup = "nome do teu workgroup"
+netbios = Dominio
+
+server string = %h server (Arquivos) #colocar o nome correspondente ao seu servidor
+
+Para maior facilitade, puxar com o comando abaixo o arquivo e personaliar a configuração de dentro do seu servidor
+
+wget -v -O /etc/samba/smb.conf ....linkgithub
+
+após isso tudo, reiniciar o serviço samba
+
+sudo systemctl restart smdb.service nmbd.service
