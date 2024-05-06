@@ -45,5 +45,5 @@ for i in $(cat $arquivo | cut -d';' -f3 | sed 's/"//g' | tail -n +2); do
     	echo "O arquivo não possui uma ou ambas as strings."
     	sed -i 's/^\(.*\)$/\1, registrar1/' "$arquivo_validação"
 	fi
-
+#Testar
 done
