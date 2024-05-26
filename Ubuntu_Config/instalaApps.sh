@@ -19,7 +19,7 @@ normal="\033[0m"
 #URLs dos pacotes deb
 ChromeDeb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
 WPSDeb="https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10702/wps-office_11.1.0.10702.XA_amd64.deb"
-#virtualbox="https://download.virtualbox.org/virtualbox/7.0.16/virtualbox-7.0_7.0.16-162802~Ubuntu~jammy_amd64.deb"
+virtualbox="https://download.virtualbox.org/virtualbox/7.0.16/virtualbox-7.0_7.0.16-162802~Ubuntu~jammy_amd64.deb"
 
 #Funções
 
@@ -56,7 +56,6 @@ PROGRAMAS=(
     qbittorrent
     nmap
     teams-for-linux
-    virtualbox
 )
 
 #Instalação dos programas
@@ -66,7 +65,7 @@ instala_deb(){
     wget -c $WPSDeb -P $dirDownloads
     wget -c $virtualbox -P $dirDownloads
     echo -e "${verde}[INFO]-----  Instalando pacotes .deb  -----[INFO]${normal}"
-    sudo dpkg -i $dirDownloads/*.deb
+    sudo apt install $dirDownloads/*.deb -y
 
     echo -e "${verde}[INFO]-----  Instalando pacotes apt  -----[INFO]${normal}"
     for programa in ${PROGRAMAS[@]}; do
@@ -86,6 +85,9 @@ instala_deb(){
 #}
 
 #Atualiza e limpa
+desinsta_libreoffice(){
+    sudo apt remove --purge libreoffice* -y
+}
 
 limpa_sistema(){
     apt_update -y
@@ -116,6 +118,7 @@ verifica_internet
 atualiza_sistema
 prepara_downloads
 instala_deb
+#desinsta_libreoffice
 #instala_flatpak
 limpa_sistema
 echo "Deseja configurar os aliases? (s/n)"
