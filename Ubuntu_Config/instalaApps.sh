@@ -90,7 +90,7 @@ desinsta_libreoffice(){
 }
 
 limpa_sistema(){
-    apt_update -y
+    apt update -y
     sudo apt autoremove -y
     sudo apt autoclean
 }
