@@ -1,38 +1,55 @@
 #!/bin/bash
-# This script is used to backup all stuff that will be more than 80% of the disk space
 
-# Variables
-BACKUP_DIR="/arquivos/gestao/backup"
-LOG_FILE="/var/log/backup_SO.log"
-DATE=$(date +%Y-%m-%d)
+#####################################################################
+# Server Project | Backup                                           #
+#####################################################################
+# Author: Matheus Marins                                            #
+# Date: 14/06/2024                                                  #
+# Version: 1.0                                                      #
+# Description: This script is  going to make a incremental backup   #
+# Use: ./backup.sh; If clone the repo, run: chmod +x backup.sh      #
+# Test: Ubuntu 22.04 LTS  Bash version: 5.1.16                      #
+#####################################################################
+# In case of error or doubt, please contact the author.             #
+#####################################################################
 
-# Check if the backup directory exists
-if [ ! -d $BACKUP_DIR ]; then
-    mkdir $BACKUP_DIR
+#Colors the message 
+red='\033[31m'
+green='\033[32m'
+yellow='\033[33m'
+
+# Variables - this can be changed according to your needs
+date=$(date +%d-%m-%Y-%H:%M)
+dir_backup="pandorabox:/arquivos/maua/MAUA/"
+log_file="/home/matheus/Documentos/Bin/Backup_Cadenciado/backup_$date.log"
+origin_backup="/home/matheus/Documentos/MAUA/"
+
+#Verify if is root user, in negative case, the script will be interrupted. If you don't need to be root, just comment the condition bellow.
+if [ $(id -u) != "0" ];then
+    echo -e "$red[ERROR] ----- You must be the root user to run this script.-----  [ERROR]"
+    echo "User detected: $(whoami) at $date is trying to run the script. Please, run the script as root user." >> $log_file
+    exit 1
 fi
 
-#Check if log file exists
-if [ ! -f $LOG_FILE ]; then
-    touch $LOG_FILE
-fi
-
+# Create backup
+# rsync is a tool that allows you to copy files and directories locally or remotely, parameter -h human readable, -a archive mode, -v verbose, -P shows the progress of the transfer, -z compresses the data during the transfer
 create_backup(){
-    for i in $(df -h | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 }' | sed 's/%//g'); do
-        if [ $i -ge 80 ]; then
-            echo "Running backup at $(date)"
-            echo "Backup directory: $BACKUP_DIR" 
-            echo "Backup date: $DATE" 
-            echo "Disk space usage: $i%" 
-            echo "Backup started at $(date)"
-            tar -czf $BACKUP_DIR/backup-$DATE.tar.gz 
-            echo "Backup finished at $(date)"
-        fi
-    done
-} >> $LOG_FILE 2>&1 
+    if rsync -havPz $origin_backup $dir_backup;then
+        echo -e "$green[INFO] ----- Backup completed successfully ----- [INFO]"
+    else
+        echo -e "$red[ERROR] ----- Backup failed ----- [ERROR]" 
+    fi 
+} >> $log_file 2>&1
 
-create_backup
 
-# Check if the user is logging in via SSH
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "Please take a look at the log => $LOG_FILE."
-fi
+main(){
+    echo -e "$yellow[INFO]----- Backup started at: $(date +%d-%m-%Y-%H-%M) -----[INFO]" >> $log_file
+    create_backup
+    echo -e "$yellow[INFO]----- Backup finished at: $(date +%d-%m-%Y-%H-%M) -----[INFO]" >> $log_file
+}
+
+#############################################################################
+# Execution of the script
+#############################################################################
+main
+#############################################################################
