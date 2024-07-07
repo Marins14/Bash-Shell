@@ -5,7 +5,14 @@
 #==================================================#
 # Autor: Matheus Bernardello                       #
 # Data: 11/04/2024                                 #
-# Função: Instala aplicativos no Linux/Ubuntu      #
+# Versão: 0.1                                      #
+# Atualizacao: 07/07/2024                          #
+# Função: Instala aplicativos no Linux             #
+#==================================================#
+# Testado em ambiente Ubuntu 22.04 LTS             #
+# Versão do shell: bash 5.1.16                     #
+#==================================================#
+# Dúvidas? Leia o README.md                        #
 #==================================================#
 
 #Diretórios
@@ -17,9 +24,11 @@ vermelho="\033[31;1m"
 normal="\033[0m"
 
 #URLs dos pacotes deb
-ChromeDeb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-WPSDeb="https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10702/wps-office_11.1.0.10702.XA_amd64.deb"
-virtualbox="https://download.virtualbox.org/virtualbox/7.0.16/virtualbox-7.0_7.0.16-162802~Ubuntu~jammy_amd64.deb"
+URLS=(
+    "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    "https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10702/wps-office_11.1.0.10702.XA_amd64.deb"
+    "https://download.virtualbox.org/virtualbox/7.0.16/virtualbox-7.0_7.0.16-162802~Ubuntu~jammy_amd64.deb"
+)
 
 #Funções
 
@@ -31,10 +40,10 @@ atualiza_sistema(){
 #Verificar a internet
 verifica_internet(){
     if ! ping -c 1 google.com &> /dev/null; then
-        echo -e "${vermelho}Sem conexão com a internet.${normal}"
+        echo -e "${vermelho}[ERRO]----- Sem conexão com a internet. -----[ERRO]${normal}"
         exit 1
     else
-        echo -e "${verde}Conexão com a internet estabelecida.${normal}"
+        echo -e "${verde}[INFO]----- Conexão com a internet estabelecida. -----[INFO]${normal}"
     fi
 }
 
@@ -53,20 +62,28 @@ PROGRAMAS=(
     git
     wget
     curl
+    net-tools
     qbittorrent
     nmap
     teams-for-linux
+    keepassxc
+    bind9-dnsutils
 )
 
 #Instalação dos programas
 instala_deb(){
     echo -e "${verde}[INFO]-----  Baixando pacotes .deb  -----[INFO]${normal}"
-    wget -c $ChromeDeb -P $dirDownloads
-    wget -c $WPSDeb -P $dirDownloads
-    wget -c $virtualbox -P $dirDownloads
+    for url in ${URLS[@]}; do
+        if ! wget -c $url -P $dirDownloads; then
+            echo -e "${vermelho}[ERRO]-----  Erro ao baixar o pacote $url  -----[ERRO]${normal}"
+            exit 1
+        fi
+        if apt list | grep -q $(basename $url); then
+            echo -e "${verde}[INFO]-----  $(basename $url) já está baixado  -----[INFO]${normal}"
+        fi
+    done
     echo -e "${verde}[INFO]-----  Instalando pacotes .deb  -----[INFO]${normal}"
     sudo apt install $dirDownloads/*.deb -y
-
     echo -e "${verde}[INFO]-----  Instalando pacotes apt  -----[INFO]${normal}"
     for programa in ${PROGRAMAS[@]}; do
         if ! apt list | grep -q $programa; then
@@ -77,12 +94,12 @@ instala_deb(){
     done
 }
 
-#instala_flatpak(){
-   #echo -e "${verde}[INFO]-----  Instalando Flatpak  -----#[INFO]${normal}"
-    #sudo apt install flatpak -y
-    #sudo flatpak remote-add --if-not-exists flathub #https://flathub.org/repo/flathub.flatpakrepo
-    #sudo flatpak install flathub com.spotify.Client -y
-#}
+instala_flatpak(){
+    echo -e "${verde}[INFO]-----  Instalando Flatpak  -----[INFO]${normal}"
+    sudo apt install flatpak -y
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    echo -e "${verde}[INFO]-----  Flatpak instalado com sucesso!  -----[INFO]${normal}"
+}
 
 #Atualiza e limpa
 desinsta_libreoffice(){
@@ -109,22 +126,91 @@ conf_aliases(){
     echo "alias Scripts='cd /home/$(whoami)/Documentos/Bin'" >> ~/.bash_aliases
     echo "alias myip='ifconfig | grep inet | awk 'NR==3 {print $2}''" >> ~/.bash_aliases
     echo "alias please='sudo'" >> ~/.bash_aliases
+    echo "alias cls='clear'" >> ~/.bash_aliases
     . ~/.bash_aliases
     echo -e "${verde}[INFO]-----  Aliases configurados  -----[INFO]${normal}"
 }
 
-#Execução
+#Configurando arquivo de ssh 
+conf_ssh(){
+    echo -e "${verde}[INFO]-----  Configurando arquivo de ssh  -----[INFO]${normal}"
+    if [[ ! -d ~/.ssh ]];then
+        mkdir ~/.ssh
+    fi
+    if [[ ! -f ~/.ssh/config ]];then
+        touch ~/.ssh/config
+    fi
+    echo "Digite o IP do servidor remoto:"
+    read -r IP
+    echo "Digite o nome do usuário remoto:"
+    read -r usarioremoto
+    echo "Digite o hostname do servidor remoto:"
+    read -r HostnameRemoto
+    {
+        echo "Host $HostnameRemoto"
+        echo "    HostName $IP"
+        echo "    User $usarioremoto"
+        echo "    IdentityFile /home/$USER/.ssh/id_rsa"
+    } >> ~/.ssh/config
+    echo -e "${verde}[INFO]-----  Arquivo de ssh configurado  -----[INFO]${normal}"
+}
+
+#Configuração manual de instalação
+instalacaoAssistida(){
+    echo "Estes são os programas .deb que serão instalados:"
+    echo "Google Chrome"
+    echo "WPS Office"
+    echo "VirtualBox"
+    echo "Deseja continuar? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        instala_deb
+    fi
+    echo "Deseja instalar o Flatpak? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        instala_flatpak
+    fi
+    echo "Deseja desinstalar o LibreOffice? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        desinsta_libreoffice
+    fi
+    limpa_sistema
+    echo "Deseja configurar os aliases? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        conf_aliases
+    fi
+    echo "Deseja configurar o arquivo de ssh? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        conf_ssh
+    fi
+    echo -e "${verde}[INFO]-----  Instalação concluída  -----[INFO]${normal}"
+}
+
+
+#Função principal 
+echo "Ola, vamos configurar seu $(lsb_release -d | awk '{print $2}')."
 verifica_internet
 atualiza_sistema
 prepara_downloads
-instala_deb
-#desinsta_libreoffice
-#instala_flatpak
-limpa_sistema
-echo "Deseja configurar os aliases? (s/n)"
+echo "Deseja analisar cada passo da instalação? (s/n)"
 read choice | tr '[:upper:]' '[:lower:]'
 if [[ $choice == "s" ]]; then
+    instalacaoAssistida
+else
+    instala_deb
+    instala_flatpak
+    desinsta_libreoffice
+    limpa_sistema
     conf_aliases
+    echo "Deseja configurar o arquivo de ssh? (s/n)"
+    read choice | tr '[:upper:]' '[:lower:]'
+    if [[ $choice == "s" ]]; then
+        conf_ssh
+    fi
 fi
 
 #Fim do script
