@@ -1,7 +1,0 @@
-# Good practice is to indicate the bash path.
-# The command > file executes the command and puts it inside the file.
-# For example, echo "echo Hello, world" > info.
-# > file_name
-# Indicate to bash that it's an executable through the command chmod +x. u+x means only the owner can execute it, a+x means everyone can execute it. Learn more about permissions.
-# To run the script, use ./file_name. If you want to just use the file name, modify the $PATH.
-# To do this, ~ls .bash* and modify the .bash_profile.
