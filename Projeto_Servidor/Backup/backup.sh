@@ -9,6 +9,8 @@
 # Description: This script is  going to make a incremental backup   #
 # Use: ./backup.sh; If clone the repo, run: chmod +x backup.sh      #
 # Test: Ubuntu 22.04 LTS  Bash version: 5.1.16                      #
+# Warning: This script needs to be run as root user and             #
+# Don't forget to change the variables according to your needs      #
 #####################################################################
 # In case of error or doubt, please contact the author.             #
 #####################################################################
@@ -20,9 +22,9 @@ yellow='\033[33m'
 
 # Variables - this can be changed according to your needs
 date=$(date +%d-%m-%Y-%H:%M)
-dir_backup="pandorabox:/arquivos/maua/MAUA/"
-log_file="/home/matheus/Documentos/Bin/Backup_Cadenciado/backup_$date.log"
-origin_backup="/home/matheus/Documentos/MAUA/"
+dir_backup="/put/your/backup/path/here"
+log_file="/put/your/backup/path/here/backup_$date.log"
+origin_backup="/put/your/origin/path/here"
 
 #Verify if is root user, in negative case, the script will be interrupted. If you don't need to be root, just comment the condition bellow.
 if [ $(id -u) != "0" ];then

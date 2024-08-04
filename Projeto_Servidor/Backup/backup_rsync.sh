@@ -9,13 +9,11 @@
 ################################
 
 # Variables
-#dir_backup="/arquivos/gestao/backup/"
-dir_backup="/home/matheus/Documentos/Bash-Shell/Projeto_Servidor/Backup"
-#log_file="/var/log/backup_SO.log"
-log_file="/home/matheus/Documentos/backup_SO.log"
+dir_backup="/put/your/DST_path/here"
+log_file="/put/your/path/here/backup_SO.log"
 date=$(date +%d-%m-%Y-%H-%M)
-origin_backup="/home/matheus/Documentos/Bin/Backup_Cadenciado/"
-git_dir="/home/matheus/Documentos/Bash-Shell/"
+origin_backup="/put/your/SRC_path/here/"
+git_dir="/put/your/git/path/here"
 
 # Check if the backup directory exists
 if [ ! -d $dir_backup ]; then
@@ -37,5 +35,7 @@ repoConfig(){
     git push
 } >> $log_file 2>&1
 
+############################################
 create_backup
 repoConfig
+# End of the script                       #
