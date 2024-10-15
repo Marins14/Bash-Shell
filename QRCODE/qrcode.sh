@@ -26,13 +26,13 @@ case $site in
     1)
         echo "Type the URL you want to generate the qrcode:"
         read url
-        qrencode -o s 10 -l H qrcode.png $url
+        qrencode -s 10 -l H -o qrcode.png $url
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     2)
         echo "Type the text you want to generate the qrcode:"
         read text
-        qrencode -o s 10 -l H qrcode.png $text
+        qrencode -s 10 -l H -o qrcode.png $text
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     3)
@@ -42,7 +42,7 @@ case $site in
         read password
         echo "Type the encryption type (WPA/WEP):"
         read encryption
-        qrencode -o -s 10 -l H qrcode.png "WIFI:S:$ssid;T:$encryption;P:$password;;"
+        qrencode -s 10 -l H -o qrcode.png "WIFI:S:$ssid;T:$encryption;P:$password;;"
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     4)
