@@ -20,19 +20,26 @@ echo -e "What type of qrcode do you want to generate?
 
 read site
 
-save_path=$(pwd)
+default_path=$(pwd)
+
+echo "Type the path you want to save the qrcode (default: $default_path):"
+read save_path
+
+if [ -z $save_path ]; then
+    save_path=$default_path
+fi
 
 case $site in
     1)
         echo "Type the URL you want to generate the qrcode:"
         read url
-        qrencode -s 10 -l H -o qrcode.png $url
+        qrencode -s 10 -l H -o $save_path/qrcode.png $url
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     2)
         echo "Type the text you want to generate the qrcode:"
         read text
-        qrencode -s 10 -l H -o qrcode.png $text
+        qrencode -s 10 -l H -o $save_path/qrcode.png $text
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     3)
@@ -42,7 +49,7 @@ case $site in
         read password
         echo "Type the encryption type (WPA/WEP):"
         read encryption
-        qrencode -s 10 -l H -o qrcode.png "WIFI:S:$ssid;T:$encryption;P:$password;;"
+        qrencode -s 10 -l H -o $save_path/qrcode.png "WIFI:S:$ssid;T:$encryption;P:$password;;"
         echo "Qrcode generated! The qrcode is saved in $save_path/qrcode.png"
         ;;
     4)
