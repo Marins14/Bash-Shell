@@ -6,7 +6,7 @@
 # Autor: Matheus Bernardello                       #
 # Data: 11/04/2024                                 #
 # Versão: 0.1                                      #
-# Atualizacao: 07/07/2024                          #
+# Atualizacao: 08/11/2024                          #
 # Função: Instala aplicativos no Linux             #
 #==================================================#
 # Testado em ambiente Ubuntu 22.04 LTS             #
@@ -31,6 +31,14 @@ URLS=(
 )
 
 #Funções
+
+#Valida o SO, se != Ubuntu, encerra o script
+valida_so(){
+    if ! lsb_release -a | grep -i Ubuntu; then
+        echo -e "${vermelho}[ERRO]----- Este script é para Ubuntu e derivados! -----[ERRO]${normal}"
+        exit 1
+    fi
+}
 
 #Atualiza o sistema
 atualiza_sistema(){
@@ -68,6 +76,7 @@ PROGRAMAS=(
     teams-for-linux
     keepassxc
     bind9-dnsutils
+    jq
 )
 
 #Instalação dos programas
@@ -191,7 +200,8 @@ instalacaoAssistida(){
 }
 
 
-#Função principal 
+#Função principal
+valida_so 
 echo "Ola, vamos configurar seu $(lsb_release -d | awk '{print $2}')."
 verifica_internet
 atualiza_sistema
