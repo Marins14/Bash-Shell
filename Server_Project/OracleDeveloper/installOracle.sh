@@ -50,6 +50,7 @@ DebianBased(){
     apt update -y
     apt upgrade -y
     apt autoremove -y 
+    apt install openjdk-17-jdk -y
 } >> $logFile 2>&1
 
 # Updating the system if OS is a Red Hat based
@@ -58,6 +59,7 @@ RedHatBased(){
     yum update -y
     yum upgrade -y
     yum autoremove -y
+    yum install java-17-openjdk -y
 } >> $logFile 2>&1
 
 # Installing the JDK package
