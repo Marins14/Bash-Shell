@@ -1,7 +1,7 @@
 # How to install Oracle Developer on Linux Distributions
 
 ## Introduction
-This document will guide you through the installation of Oracle Developer on Linux distributions. The installation process is the same for all Linux distributions. The only difference is the installation of the required packages, I will mention the required packages for each distribution. These above steps will help you to install Oracle Developer on your system, but if you don't want to follow these steps, can just exec the installOracle.sh script.
+This document will guide you through the installation of Oracle Developer on Linux distributions. The installation process is the same for all Linux distributions. The only difference is the installation of the required packages, I will mention the required packages for each distribution. These above steps will help you to install Oracle Developer on your system, but if you don't want to follow these steps, can just exec the installOracle.sh [script](#how-to-use-the-installoraclesh-script).
 
 ## Prerequisites
 - Oracle Developer requires Java Development Kit (JDK) to be installed on your system. You can download the latest version of JDK from the [Oracle website](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
