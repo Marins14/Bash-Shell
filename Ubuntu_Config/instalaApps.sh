@@ -35,7 +35,7 @@ URLS=(
 #Valida o SO, se != Ubuntu, encerra o script
 valida_so(){
     if ! lsb_release -a | grep -i Ubuntu; then
-        echo -e "${vermelho}[ERRO]----- Este script é para Ubuntu e derivados! -----[ERRO]${normal}"
+        echo -e "${vermelho}[ERRO]----- Este script é para Ubuntu! -----[ERRO]${normal}"
         exit 1
     fi
 }
@@ -77,6 +77,7 @@ PROGRAMAS=(
     keepassxc
     bind9-dnsutils
     jq
+    net-tools
 )
 
 #Instalação dos programas
@@ -136,6 +137,8 @@ conf_aliases(){
     echo "alias myip='ifconfig | grep inet | awk 'NR==3 {print $2}''" >> ~/.bash_aliases
     echo "alias please='sudo'" >> ~/.bash_aliases
     echo "alias cls='clear'" >> ~/.bash_aliases
+    echo "alias so='source ~/.bash_aliases'" >> ~/.bash_aliases
+    echo "alias edit='vim ~/.bash_aliases'" >>~/.bash_aliases
     . ~/.bash_aliases
     echo -e "${verde}[INFO]-----  Aliases configurados  -----[INFO]${normal}"
 }
@@ -201,6 +204,7 @@ instalacaoAssistida(){
 
 
 #Função principal
+echo "INICIO: $(date +%H:%M:%S)"
 valida_so 
 echo "Ola, vamos configurar seu $(lsb_release -d | awk '{print $2}')."
 verifica_internet
@@ -225,3 +229,4 @@ fi
 
 #Fim do script
 echo -e "${verde}[INFO]-----  Instalação concluída  -----[INFO]${normal}"
+echo "FIM: $(date +%H:%M:%S)"
