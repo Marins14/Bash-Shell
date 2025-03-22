@@ -18,7 +18,7 @@ E adicione a seguinte linha:
 Lembre-se de adicionar o caminho correto para o script!
 
 ## Configuração
-Para que funcione conforme o esperado, você precisa ter em mãos o token do seu bot do telegram e o chat_id do seu grupo, para verificar como fazer isso, olhe o #InfoTelegram, no arquivo `monitor_server.py` você deve preencher as variáveis ou crie um `.env` e adicione elas lá, não esqueça de adicionar o `.env` no `.gitignore` para não subir para o repositório. 
+Para que funcione conforme o esperado, você precisa ter em mãos o token do seu bot do telegram e o chat_id do seu grupo, para verificar como fazer isso, olhe o [InfoTelegram](#infotelegram), no arquivo `monitor_server.py` você deve preencher as variáveis ou crie um `.env` e adicione elas lá, não esqueça de adicionar o `.env` no `.gitignore` para não subir para o repositório. 
 Recomendo que rode o script manualmente para verificar se está funcionando corretamente, caso não esteja, verifique se as variáveis estão corretas.
 Ponto de atenção, como este script coleta informações sensivéis do sistema, recomendo que você rode o script como root, para isso, basta rodar o comando:
 ```bash
