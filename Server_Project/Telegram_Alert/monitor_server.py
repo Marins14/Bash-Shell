@@ -3,10 +3,15 @@
 import subprocess
 import requests
 from datetime import  datetime
+import os
+
+#Carrega o env
+from dotenv import load_dotenv
+load_dotenv()
 
 # Configuração do bot do Telegram
-TELEGRAM_BOT_TOKEN = "8134116844:AAF8O7lJOyNMM8y3RBynWyK1mBZB9J8OF4A"
-TELEGRAM_CHAT_ID = "7836108597"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 agora=datetime.today()
 hoje=agora.strftime("%d/%m/%Y %H:%M")
 
@@ -36,4 +41,4 @@ if __name__ == "__main__":
  #send_telegram_message("Teste")
  check_temperature()
  check_disk_usage()
- #check_user_logged()
+ check_user_logged()
