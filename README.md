@@ -19,3 +19,28 @@
 ```bash
     echo "Nice to meet you!"
 ```
+## Just for fun 
+```
+🙏 Oratio Sancti Terminalis
+(A Oração do Usuário Antes de Tentar Algo Estúpido no Linux)
+
+Pai Kernel, que estais em /boot,
+compilado seja o Vosso nome.
+
+Venha a nós o Vosso init,
+seja montado o Vosso sistema,
+assim no SSD como no RAM-disk.
+
+O /home nosso de cada dia nos dai hoje,
+e perdoai as nossas flags incorretas,
+assim como nós perdoamos aos que usam GUI para tudo.
+
+E não nos deixei cair em loops infinitos,
+mas livrai-nos do segmentation fault.*
+
+Pois Teu é o sistema, a shell e o poder de root,
+na eternidade do open source.
+Ctrl+C. Ctrl+C.
+
+✨ Amen. ✨
+```
