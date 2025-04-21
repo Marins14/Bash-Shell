@@ -8,7 +8,6 @@
 # Date: 2025-04-20                              #
 #===============================================#
 
-. crypt.sh
 
 #Variables
 LOG_FILE="/var/log/setup.log"
@@ -35,6 +34,7 @@ if [ -f install_samba.sh ]; then
 fi
 if [ -f crypt.sh ]; then
     chmod +x crypt.sh
+    source crypt.sh
 fi
 
 }
@@ -88,7 +88,8 @@ prerequisites
 unzip_files
 collect_info
 Installing
-} 2>&1 | tee -a "$LOG_FILE"
+} 
+main 2>&1 | tee -a "$LOG_FILE"
 #=====================#
 
 
