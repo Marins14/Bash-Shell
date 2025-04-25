@@ -10,7 +10,7 @@
 
 
 #Variables
-LOG_FILE="/var/log/setup.log"
+LOG_FILE="/var/log/smb_setup.log"
 
 unzip_files(){
     tar -xvf samba.tar.gz
@@ -84,8 +84,8 @@ Installing(){
 
 #Main script execution#
 main(){
-prerequisites
 unzip_files
+prerequisites
 collect_info
 Installing
 } 
