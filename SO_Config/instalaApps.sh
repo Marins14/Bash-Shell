@@ -27,7 +27,6 @@ normal="\033[0m"
 URLS=(
     "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
     "https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/10702/wps-office_11.1.0.10702.XA_amd64.deb"
-    "https://download.virtualbox.org/virtualbox/7.0.16/virtualbox-7.0_7.0.16-162802~Ubuntu~jammy_amd64.deb"
 )
 
 #Funções
