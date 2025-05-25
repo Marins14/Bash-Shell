@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+    - shell: 'echo "{{ansible_user}} ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/{{ ansible_user }}'
+      become: yes
+#rodar com o -K

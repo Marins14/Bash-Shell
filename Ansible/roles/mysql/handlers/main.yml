@@ -1,0 +1,7 @@
+---
+#Só funcionara se o notify for chamado, notify so sera chamado se a task tiver changed
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+      become: yes
