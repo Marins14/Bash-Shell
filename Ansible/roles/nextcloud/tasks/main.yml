@@ -1,0 +1,40 @@
+---
+  - name: Install and Configure nextcloud by Docker Compose
+    ansible.builtin.apt:
+      pkg:
+        - docker.io
+        - docker-compose
+      state: latest
+      update_cache: yes
+    become: yes
+  
+  - name: Create the nextcloud directory
+    ansible.builtin.file:
+      path: '{{ nextcloud_dir }}'
+      state: directory
+      mode: '0755'
+    become: yes
+  
+  - name: Copy docker-compose.yml for nextcloud
+    ansible.builtin.copy:
+      src: files/docker-compose.yml
+      dest: '{{ nextcloud_dir }}/docker-compose.yml'
+    become: yes
+  
+  - name: Copy .env file for nextcloud
+    ansible.builtin.copy:
+      src: files/.env
+      dest: '{{ nextcloud_dir }}/.env'
+    become: yes
+
+  - name: Start nextcloud using Docker Compose
+    ansible.builtin.command:
+      cmd: docker-compose up -d
+      chdir: '{{ nextcloud_dir }}'
+    become: yes
+  
+  - name: Ensure nextcloud is running
+    ansible.builtin.command:
+      cmd: docker ps
+    register: docker_ps_output
+    become: yes

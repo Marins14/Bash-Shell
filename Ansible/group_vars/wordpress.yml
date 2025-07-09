@@ -4,3 +4,4 @@ wp_db_user : 'wordpress_user'
 wp_db_pass : '12345'
 wp_db_host : '192.168.15.78'
 wp_dir : "/srv/www/wordpress"
+nextcloud_dir: '/opt/nextcloud'
