@@ -1,0 +1,43 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    ports:
+      - '8999:8080'
+    volumes:
+      - ./StirlingPDF/trainingData:/usr/share/tessdata
+      - ./StirlingPDF/extraConfigs:/configs
+      - ./StirlingPDF/customFiles:/customFiles/
+      - ./StirlingPDF/logs:/logs/
+      - ./StirlingPDF/pipeline:/pipeline/
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - LANGS=en_GB
+    restart: unless-stopped
+  
+  openvpn-exporter:
+    image: kumina/openvpn-exporter:latest
+    container_name: openvpn-exporter
+    ports:
+      - "9176:9176"
+    volumes:
+      - /etc/openvpn:/etc/openvpn:ro
+    restart: unless-stopped
+    command:
+      - '--openvpn.status_paths=/etc/openvpn/openvpn-status.log'
+  
+  portainer:
+    image: portainer/portainer-ce:lts
+    container_name: portainer
+    ports:
+      - "8000:8000"  # Port for Portainer agent communication
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+
+volumes:
+  portainer_data:
+    driver: local
+    external: true
+  
