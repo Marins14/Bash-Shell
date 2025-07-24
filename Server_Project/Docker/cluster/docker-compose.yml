@@ -39,11 +39,12 @@ services:
   redis:
     image: redis:latest
     platform: linux/amd64
-    command: sh -c "redis-server --requirepass $(cat /run/secrets/redis_password)"
-    environment:
-      REDIS_PASSWORD: /run/secrets/redis_password
+    command: >
+      sh -c 'REDIS_PASS=$(cat /run/secrets/redis_password) && redis-server --requirepass "$REDIS_PASS"'
     ports:
       - "6379:6379"
+    secrets:
+      - redis_password
 
   waha:
     image: devlikeapro/waha:latest
