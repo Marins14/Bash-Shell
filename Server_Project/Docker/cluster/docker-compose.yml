@@ -40,7 +40,7 @@ services:
     image: redis:latest
     platform: linux/amd64
     command: >
-      sh -c 'REDIS_PASS=$(cat /run/secrets/redis_password) && redis-server --requirepass "$REDIS_PASS"'
+      sh -c 'REDIS_PASS=$$(cat /run/secrets/redis_password) && redis-server --requirepass "$$REDIS_PASS"'
     ports:
       - "6379:6379"
     secrets:
@@ -50,7 +50,7 @@ services:
     image: devlikeapro/waha:latest
     platform: linux/amd64
     environment:
-      WHATSAPP_HOOK_URL: http://${HOST_IP}:5678/webhook/webhook
+      WHATSAPP_HOOK_URL: http://n8n:5678/webhook/webhook
       WHATSAPP_DEFAULT_ENGINE: GOWS
       WHATSAPP_HOOK_EVENTS: message
     volumes:
@@ -62,14 +62,15 @@ services:
       - "host.docker.internal:host-gateway"
 
   n8n:
-    image: n8nio/n8n:latest
+    image: n8nio/n8n:1.104.1-amd64
     platform: linux/amd64
     environment:
       WEBHOOK_URL: http://${HOST_IP}:5678
       N8N_HOST: ${HOST_IP}
       GENERIC_TIMEZONE: America/Sao_Paulo
       N8N_LOG_LEVEL: debug
-      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: true
+      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
+      N8N_SECURE_COOKIE: "false"
     volumes:
       - ./n8n_data:/home/node/.n8n
     ports:
@@ -79,9 +80,8 @@ services:
 
 volumes:
   portainer_data:
-    driver: local
-    external: true
-
+    external: true 
+#To create de volume, use this command for a bind volume: docker volume create --opt type=none --opt device=/opt/docker/portainer_data --opt o=bind portainer_data   
 secrets:
   redis_password:
     file: ./secrets/redis_password.txt
