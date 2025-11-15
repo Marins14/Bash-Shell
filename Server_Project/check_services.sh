@@ -128,6 +128,33 @@ send_webhook() {
     fi
 }
 
+pull_up() {
+    local service="$1"
+
+    log "Attempting to restart service $service" "INFO"
+    systemctl start "$service"
+
+    sleep 3
+
+    if systemctl is-active --quiet "$service"; then
+        log "Service $service successfully restarted" "INFO"
+        
+        # Envia webhook de RECOVERY imediato
+        send_webhook "$service" "UP"
+    else
+        log "FAILED to restart service $service" "ERROR"
+
+        # Envia webhook de falha ao restaurar
+        send_webhook "$service" "DOWN"
+
+        # Salva log completo do systemctl
+        systemctl status "$service" &> "$cooldown_dir/${service}_error.log"
+
+        log "Systemctl status saved to ${cooldown_dir}/${service}_error.log" "ERROR"
+    fi
+}
+
+
 
 
 #Check de health of services
@@ -140,5 +167,6 @@ for i in "${services[@]}"; do
     else
         log "Service $i is DOWN" "WARNING"
         send_webhook "$i" "DOWN"
+        pull_up "$i"
     fi
 done
