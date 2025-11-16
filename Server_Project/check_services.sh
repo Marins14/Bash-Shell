@@ -10,6 +10,18 @@
 #####################################################################
 # In case of error or doubt, please contact the author.             #
 #####################################################################
+# Here a Let my sugestion to use in your logrotate                  #
+#/opt/matheus/pandora/*.log {
+#        daily
+#        missingok
+#        rotate 7
+#        compress
+#        delaycompress
+#        notifempty
+#        copytruncate
+#        dateext
+#        create 0640 user group
+#} 
 
 
 log_file="/opt/pandora/status_service.log"
@@ -159,8 +171,6 @@ pull_up() {
 
 #Check de health of services
 for i in "${services[@]}"; do
-    log "Checking the service $i" "INFO"
-
     if systemctl is-active --quiet "$i"; then
         log "Service $i OK" "INFO"
         send_webhook "$i" "UP"
@@ -170,3 +180,4 @@ for i in "${services[@]}"; do
         pull_up "$i"
     fi
 done
+
