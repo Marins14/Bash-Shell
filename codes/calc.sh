@@ -88,6 +88,7 @@ x = symbols('x')
 f = sympify("$expr")
 print(diff(f, x))
 EOF
+echo -e "\nDica, use o 'https://www.geogebra.org/calculator' para validar a expressão!\n"
 }
 # -------- Integral com Python/SymPy --------
 integral() {
@@ -98,6 +99,7 @@ x = symbols('x')
 f = sympify("$expr")
 print(integrate(f, x))
 EOF
+echo -e "\nDica, use o 'https://www.geogebra.org/calculator' para validar a expressão!\n"
 }
 
 # ========================
