@@ -127,6 +127,24 @@ Escolha: " escolha
 }
 
 # ========================
+# Função de trativa
+# ========================
+verifica_virgula() {
+    local num="$1"
+    local num2="$2"
+
+    # Se tiver só um argumento, processa apenas ele
+    if [ -z "$num2" ]; then
+        echo "${num//,/.}"
+        return
+    fi
+
+    # Troca vírgula por ponto em ambos e retorna
+    echo "${num//,/.} ${num2//,/.}"
+}
+
+
+# ========================
 # Execução principal
 # ========================
 
@@ -139,40 +157,54 @@ while true; do
         1)
             read -p "Digite um número: " num1
             read -p "Digite o segundo número: " num2
+            read num1 num2 <<< "$(verifica_virgula "$num1" "$num2")"
             resultado=$(bc <<< "$num1 + $num2")
             echo "A soma é: $resultado" ;;
 
         2)
             read -p "Digite um número: " num1
             read -p "Digite o segundo número: " num2
+            read num1 num2 <<< "$(verifica_virgula "$num1" "$num2")"
             resultado=$(bc <<< "$num1 - $num2")
             echo "A subtração é: $resultado" ;;
 
         3)
             read -p "Digite um número: " num1
             read -p "Digite o segundo número: " num2
+            read num1 num2 <<< "$(verifica_virgula "$num1" "$num2")"
             resultado=$(bc <<< "scale=2;$num1/$num2")
             echo "A divisão é: $resultado" ;;
 
         4)
             read -p "Digite um número: " num1
             read -p "Digite o segundo número: " num2
+            read num1 num2 <<< "$(verifica_virgula "$num1" "$num2")"
             resultado=$(bc <<< "$num1 * $num2")
             echo "A multiplicação é: $resultado" ;;
 
         5)
             read -p "Digite um número: " num1
+            read num1 <<< "$(verifica_virgula "$num1")"
             resultado=$(bc -l <<< "scale=2;sqrt($num1)")
             echo "A raiz quadrada de $num1 é: $resultado" ;;
 
         6)
             read -p "Digite um número: " num1
-            resultado=$(bc <<< "$num1 % 2")
-            if [[ $resultado -ne 0 ]]; then
-                echo "O número $num1 é ímpar"
+            read num1 <<< "$(verifica_virgula "$num1")"
+
+            # Verificar se é inteiro
+            if [[ "$num1" =~ ^-?[0-9]+$ ]]; then
+                resultado=$(bc <<< "$num1 % 2")
+
+                if [[ $resultado -ne 0 ]]; then
+                    echo "O número $num1 é ímpar"
+                else
+                    echo "O número $num1 é par"
+                fi
             else
-                echo "O número $num1 é par"
-            fi ;;
+                echo "O número $num1 não é inteiro, portanto não pode ser par ou ímpar."
+            fi
+        ;;
 
         7)
             read -p "Digite um número: " num1
