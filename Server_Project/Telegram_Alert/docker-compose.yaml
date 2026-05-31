@@ -1,0 +1,20 @@
+services:
+  telegram-bot:
+    build: .
+    container_name: telegram_bot
+    restart: unless-stopped
+
+    environment:
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+      PROMETHEUS_URL: ${PROMETHEUS_URL}
+      ADMIN_ID: ${ADMIN_ID}
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    group_add:
+      - 998
+    networks:
+      - telegram_bot
+
+networks:
+  telegram_bot:
+    driver: bridge
