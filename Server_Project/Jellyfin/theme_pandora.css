@@ -1,0 +1,368 @@
+/* ==========================================================
+   PANDORAFLIX ICE EDITION v1.0
+   Jellyfin + Ultrachromic
+   ========================================================== */
+
+/* ================= IMPORTS ================= */
+
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/base.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/type/dark.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/titlepage/title_simple.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/rounding.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/jf_font.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/header/header_transparent.css");
+@import url("https://cdn.jsdelivr.net/gh/CTalvio/Ultrachromic/effects/glassy.css");
+@import url("https://ctalvio.github.io/Monochromic/backdrop-hack_style.css");
+
+/* ==========================================================
+   VARIÁVEIS
+   ========================================================== */
+
+:root{
+
+    --accent:90,200,250;
+
+    --rounding:14px;
+
+}
+
+/* ==========================================================
+   FUNDO
+   ========================================================== */
+
+html,
+body,
+.skinBody,
+.page,
+.backgroundContainer{
+
+    background:#080808 !important;
+
+}
+
+/* ==========================================================
+   BACKDROP
+   ========================================================== */
+
+.backdropImage{
+
+    filter:
+        brightness(35%)
+        saturate(110%)
+        blur(3px);
+
+}
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.skinHeader{
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(8,8,8,.96),
+            rgba(8,8,8,.78)
+        ) !important;
+
+    backdrop-filter:blur(14px);
+
+}
+
+/* ==========================================================
+   MENU
+   ========================================================== */
+
+.mainDrawer{
+
+    background:rgba(12,12,12,.94)!important;
+
+}
+
+/* ==========================================================
+   LOGO
+   ========================================================== */
+
+.pageTitleWithLogo{
+
+    background-image:url("https://raw.githubusercontent.com/Marins14/Bash-Shell/main/Server_Project/Jellyfin/PANDORA%E2%80%99FLIX.png");
+
+    background-size:contain;
+
+}
+
+/* ==========================================================
+   BOTÕES
+   ========================================================== */
+
+.raised,
+.btnPlay{
+
+    background:#5AC8FA!important;
+
+    color:#111!important;
+
+    border-radius:12px;
+
+}
+
+.raised:hover,
+.btnPlay:hover{
+
+    background:#7DDCFF!important;
+
+}
+
+/* ==========================================================
+   TEXTO
+   ========================================================== */
+
+.cardText,
+.cardText-first{
+
+    color:#F8F8F8!important;
+
+    font-weight:700;
+
+    text-shadow:
+
+        0 2px 6px rgba(0,0,0,.95);
+
+}
+
+.cardText-secondary{
+
+    color:#D8D8D8!important;
+
+}
+
+.cardTextContainer{
+
+    background:
+
+        linear-gradient(
+
+            to top,
+
+            rgba(0,0,0,.92),
+
+            rgba(0,0,0,.50),
+
+            rgba(0,0,0,0)
+
+        );
+
+}
+
+/* ==========================================================
+   HOVER DOS POSTERS
+   ========================================================== */
+
+.itemsContainer{
+
+    overflow:visible!important;
+
+}
+
+.cardBox,
+.cardScalable{
+
+    transition:
+
+        transform .16s ease,
+
+        box-shadow .16s ease,
+
+        filter .16s ease;
+
+}
+
+.cardBox:hover,
+.cardScalable:hover{
+
+    transform:
+
+        translateY(-5px)
+
+        scale(1.012);
+
+    z-index:999;
+
+    filter:brightness(1.05);
+
+    box-shadow:
+
+        0 12px 28px rgba(0,0,0,.45),
+
+        0 0 14px rgba(90,200,250,.18);
+
+}
+
+/* Barra inferior */
+
+.cardBox:hover::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:#5AC8FA;
+
+    border-radius:0 0 12px 12px;
+
+}
+
+/* ==========================================================
+   DETALHES DOS FILMES
+   ========================================================== */
+
+.detailPagePrimaryContainer{
+
+    background:rgba(0,0,0,.60);
+
+    backdrop-filter:blur(12px);
+
+    border-radius:18px;
+
+    padding:24px;
+
+}
+
+.detailPagePrimaryContainer,
+.detailPageSecondaryContainer{
+
+    color:white;
+
+    text-shadow:
+
+        0 2px 8px black;
+
+}
+
+/* ==========================================================
+   LINKS
+   ========================================================== */
+
+a{
+
+    color:#5AC8FA;
+
+}
+
+/* ==========================================================
+   MENU SUPERIOR
+   ========================================================== */
+
+.emby-tab-button-active{
+
+    color:#5AC8FA!important;
+
+    position:relative;
+
+}
+
+.emby-tab-button-active::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:25%;
+
+    bottom:-8px;
+
+    width:50%;
+
+    height:3px;
+
+    border-radius:20px;
+
+    background:#5AC8FA;
+
+}
+
+/* ==========================================================
+   PROGRESSO
+   ========================================================== */
+
+.playedIndicator,
+.mdl-slider-background-lower{
+
+    background:#5AC8FA!important;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+   ========================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#5AC8FA;
+
+    border-radius:20px;
+
+}
+
+/* ==========================================================
+   LOGIN
+   ========================================================== */
+
+.formDialog{
+
+    background:rgba(15,15,15,.72)!important;
+
+    backdrop-filter:blur(18px);
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+   INPUTS
+   ========================================================== */
+
+.emby-input{
+
+    background:rgba(255,255,255,.06)!important;
+
+    border-radius:10px;
+
+}
+
+/* ==========================================================
+   HERO (quando disponível)
+   ========================================================== */
+
+.skinHeaderWithBackground{
+
+    background:transparent!important;
+
+}
+
+.itemBackdrop{
+
+    filter:
+
+        brightness(.35)
+
+        blur(5px);
+
+}
