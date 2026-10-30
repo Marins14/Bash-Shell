@@ -1,0 +1,22 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "LightsailLauncher",
+      "Effect": "Allow",
+      "Action": [
+        "lightsail:CreateInstances",
+        "lightsail:GetInstance",
+        "lightsail:GetInstances",
+        "lightsail:DeleteInstance",
+        "lightsail:GetBlueprints",
+        "lightsail:GetBundles"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": { "aws:RequestedRegion": "__REGION__" },
+        "IpAddress": { "aws:SourceIp": ["__IP__"] }
+      }
+    }
+  ]
+}
